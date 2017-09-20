@@ -1,54 +1,13 @@
-<!-- BANNER_TPL_BEGIN -->
 
-About Daplie: We're taking back the Internet!
---------------
-
-Down with Google, Apple, and Facebook!
-
-We're re-decentralizing the web and making it read-write again - one home cloud system at a time.
-
-Tired of serving the Empire? Come join the Rebel Alliance:
-
-<a href="mailto:jobs@daplie.com">jobs@daplie.com</a> | [Invest in Daplie on Wefunder](https://daplie.com/invest/) | [Pre-order Cloud](https://daplie.com/preorder/), The World's First Home Server for Everyone
-
-<!-- BANNER_TPL_END -->
-
-greenlock (node-letsencrypt) 
-=========
-
-[![Join the chat at https://gitter.im/Daplie/letsencrypt-express](https://badges.gitter.im/Daplie/letsencrypt-express.svg)](https://gitter.im/Daplie/letsencrypt-express?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-| **greenlock**
-| [greenlock-cli](https://git.daplie.com/Daplie/greenlock-cli)
-| [greenlock-express](https://git.daplie.com/Daplie/greenlock-express)
-| [greenlock-cluster](https://git.daplie.com/Daplie/greenlock-cluster)
-| [greenlock-koa](https://git.daplie.com/Daplie/greenlock-koa)
-| [greenlock-hapi](https://git.daplie.com/Daplie/greenlock-hapi)
-|
+# greenlock
 
 Automatic [Let's Encrypt](https://letsencrypt.org) (ACME) HTTPS / TLS / SSL Certificates for node.js
 
 Free SSL with [90-day](https://letsencrypt.org/2015/11/09/why-90-days.html) HTTPS / TLS Certificates
 
-Are these the droids you're looking for?
-------
+Forked from [Daplie/node-greenlock](https://git.daplie.com/Daplie/node-greenlock).
 
-This is a **low-level library** for implementing ACME / LetsEncrypt Clients, CLIs,
-system tools, and abstracting storage backends (file vs db, etc).
-
-For `express`, raw `https` or `spdy`, or `restify` (same as raw https) see
-[**greenlock-express** (previously letsencrypt-express)](https://git.daplie.com/Daplie/greenlock-express) and [greenlock-cluster (previously letsencrypt-cluster)](https://git.daplie.com/Daplie/greenlock-cluster).
-
-For `hapi` see [greenlock-hapi (previously letsencrypt-hapi)](https://git.daplie.com/Daplie/greenlock-hapi).
-
-For `koa` or `rill`
-see [greenlock-koa (previously letsencrypt-koa)](https://git.daplie.com/Daplie/greenlock-koa).
-
-For `bash`, `fish`, `zsh`, `cmd.exe`, `PowerShell`
-see [**greenlock-cli** (previously letsencrypt-cli)](https://git.daplie.com/Daplie/greenlock-cli).
-
-Install
-=======
+## Install
 
 `greenlock` requires at least two plugins:
 one for managing certificate storage and the other for handling ACME challenges.
@@ -68,43 +27,7 @@ npm install --save le-sni-auto@2.x        # default plugin for SNICallback
 
 **Important**: Use node v4.5+ or v6.x, node <= v4.4 has a [known bug](https://github.com/nodejs/node/issues/8053) in the `Buffer` implementation.
 
-Usage
-=====
-
-It's very simple and easy to use, but also very complete and easy to extend and customize.
-
-### Overly Simplified Example
-
-Against my better judgement I'm providing a terribly oversimplified example
-of how to use this library:
-
-```javascript
-var le = require('greenlock').create({ server: 'staging' });
-
-var opts = {
-  domains: ['example.com'], email: 'user@email.com', agreeTos: true
-};
-
-le.register(opts).then(function (certs) {
-  console.log(certs);
-  // privkey, cert, chain, expiresAt, issuedAt, subject, altnames
-}, function (err) {
-  console.error(err);
-});
-```
-
-You also need some sort of server to handle the acme challenge:
-
-```javascript
-var app = express();
-app.use('/', le.middleware());
-```
-
-Note: The `webrootPath` string is a template.
-Any occurance of `:hostname` will be replaced
-with the domain for which we are requested certificates.
-
-### Useful Example
+## Usage
 
 The configuration consists of 3 components:
 
@@ -213,8 +136,7 @@ Here's what `results` looks like:
 }
 ```
 
-API
----
+## API
 
 The full end-user API is exposed in the example above and includes all relevant options.
 
@@ -238,8 +160,7 @@ The following variables will be tempalted in any strings passed to the options o
 * `~/` replaced with `os.homedir()` i.e. `/Users/aj`
 * `:hostname` replaced with the first domain in the list i.e. `example.com`
 
-Developer API
--------------
+## Developer API
 
 If you are developing an `le-store-*` or `le-challenge-*` plugin you need to be aware of
 additional internal API expectations.
@@ -276,25 +197,3 @@ See https://git.daplie.com/Daplie/le-challenge-fs
 * `.get(opts, domain, key, cb);`                // opts will be retrieved by domain/key
 * `.remove(opts, domain, key, cb);`             // opts will be retrieved by domain/key
 
-Change History
-==============
-
-* v2.1.9 - Jan 18th 2017 renamed to greenlock
-* v2.0.2 - Aug 9th 2016 update readme
-* v2.0.1 - Aug 9th 2016
-  * major refactor
-  * simplified API
-  * modular plugins
-  * knock out bugs
-* v1.5.0 now using letiny-core v2.0.0 and rsa-compat
-* v1.4.x I can't remember... but it's better!
-* v1.1.0 Added letiny-core, removed node-letsencrypt-python
-* v1.0.2 Works with node-letsencrypt-python
-* v1.0.0 Thar be dragons
-
-LICENSE
-=======
-
-Dual-licensed MIT and Apache-2.0
-
-See LICENSE
